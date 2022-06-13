@@ -86,6 +86,7 @@ form label {
     margin-bottom: 7px;
     font-size: 12px;
     font-weight: 700;
+    position: relative;
 }
 
 form label input{
@@ -158,3 +159,22 @@ form .button {
     top: 0%;
     box-sizing: content-box;
 }
+
+input{
+    padding: 5px 5px;
+    border-radius: 5px;
+    background: #E5E5E5;
+}
+
+#icon{
+    position: absolute;
+    display: block;
+    bottom: .5rem;
+    right: 1rem;
+    content: url("img/component.svg");
+    user-select: none;
+    cursor: pointer;
+  }
+  input .pass{
+    padding-right: 2.5rem;
+  }
