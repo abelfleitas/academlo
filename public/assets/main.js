@@ -24,23 +24,24 @@
 
    const validate = (email, password) => {
     var response = true;
-    switch(email) {
-        case undefined: 
-            response = false;
-            errorEmail.removeAttribute("hidden")
-            break;
-        case null:
-            response = false;
-            errorEmail.removeAttribute("hidden", false)
-            break;
-        case '':
-            response = false;
-            errorEmail.removeAttribute("hidden", false)
-            break;
-        // case match('^'):
-        //     response = false;
-        //     break;            
+    const emailExp = /^(?:[^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*|"[^\n"]+")@(?:[^<>()[\].,;:\s@"]+\.)+[^<>()[\]\.,;:\s@"]{2,63}$/i
+    if(email === undefined) {
+        response = false;
+        errorEmail.removeAttribute("hidden")
     }
+    else if(email === null) {
+        response = false;
+        errorEmail.removeAttribute("hidden")
+    }
+    else if( email === '') {
+        response = false;
+        errorEmail.removeAttribute("hidden")
+    }
+    else if(! emailExp.test(email)) {
+        response = false;
+        errorEmail.removeAttribute("hidden", false)
+        errorEmail.innerHTML = "El campo email no contiene un correo eléctronico válido";
+    }              
 
     if(password.length <= 0){
         errorPassword.removeAttribute("hidden", false)

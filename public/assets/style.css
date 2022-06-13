@@ -153,13 +153,6 @@ form .button {
     }
 }
 
-.image {
-    height: auto;
-    position: fixed;
-    top: 0%;
-    box-sizing: content-box;
-}
-
 input{
     padding: 5px 5px;
     border-radius: 5px;
@@ -174,7 +167,17 @@ input{
     content: url("img/component.svg");
     user-select: none;
     cursor: pointer;
-  }
-  input .pass{
+}
+
+input .pass {
     padding-right: 2.5rem;
-  }
+}
+
+/* ################ */
+.image {
+    height: auto;
+    position: fixed;
+    top: 0%;
+    box-sizing: content-box;
+}
+
