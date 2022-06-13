@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../assets/style.css" rel="stylesheet">
+  </head>
+  <body>
+    <img class="image" src="../assets/img/vector4.svg">
+    <div class="container">
+      <div class="card">
+        <div class="card-header">
+          <ul>
+            <li><a href="../index.html">Iniciar sesión</a></li>
+            <li class="active"><a href="../pages/register.html">Registrarme</a></li>
+          </ul>
+          <h2>Registro</h2>
+        </div>
+        <div class="card-body">
+          <form validation=""none>
+              <label for="email">
+                Nombre:  <input type="text" name="name" id="name" placeholder="Escribe tu nombre"/>
+                <span class="error" id="errorName" hidden = true>El campo nombre es requerido</span>
+              </label>
+              <label for="email">
+                Correo electrónico:  <input type="email" name="email" id="email" placeholder="Escribe tu correo electrónico"/>
+                <span class="error" id="errorEmail" hidden = true>El campo email es requerido</span>
+              </label>
+              <label for="password">
+                Contraseña:  <input type="password" name="password" id="password" placeholder="Escribe tu contraseña"/>
+                <span class="error" id="errorPassword" hidden="true">El campo contraseña es requerido</span>
+              </label>
+              <label for="confirmPassword">
+                Confirmar contraseña:  <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirmar contraseña"/>
+                <span class="error" id="errorConfirmPassword" hidden="true">El campo confirmar contraseña es requerido</span>
+              </label>
+              <div class="button">
+                <button type="submit" class="button">
+                  <span class="button__text">Aceptar</span>
+                </button>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script src="../assets/register.js"></script>
+    <script src="../assets/api.js"></script>
+  </body>
+</html>
