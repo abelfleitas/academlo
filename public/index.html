@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="assets/style.css" rel="stylesheet">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   </head>
   <body>
     <img class="image-left" src="assets/img/vector4.svg">
@@ -17,7 +18,7 @@
           <h2>Inicio de sesión</h2>
         </div>
         <div class="card-body">
-          <form validation=""none>
+          <form novalidate>
               <label for="email">
                 Correo electrónico:  <input type="email" name="email" id="email" placeholder="Escribe tu correo electrónico"/>
                 <span class="error" id="errorEmail" hidden = true>El campo email es requerido</span>
@@ -39,6 +40,6 @@
     </div> 
     <img class="image-right" src="assets/img/vector3.svg">
     <script src="assets/main.js"></script>
-    <script src="assets/api.js"></script>
+    <script src="assets/api-rest.js"></script>
   </body>
 </html>
