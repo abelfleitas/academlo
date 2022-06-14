@@ -4,9 +4,9 @@ body {
     font-size: 16px normal;
     padding: 0 0;
     margin: 0 0;
-    background-image: url("../assets/img/vector3.svg");
+    /* background-image: url("../assets/img/vector3.svg");
     background-position: 100vh;
-    background-repeat: no-repeat;
+    background-repeat: no-repeat; */
 }
 
 h1{
@@ -22,19 +22,25 @@ h2 {
 .container {
     display: grid;
     width: 380px;
-    margin-top: 10%;
     margin-left: 33%;
+}
+
+.marg-5{
+    margin-top: 5%;
+}
+
+.marg-2{
+    margin-top: 2%;
 }
 
 .container .card {
     box-shadow: 1px 1px #e5e5e5;
-    padding: 30px 30px;
+    padding: 20px 20px;
     box-sizing: content-box;
     background: #ffffff;
 }
 
 .card .card-header {
-    height: auto;
     text-align: center;
 }
 
@@ -62,13 +68,14 @@ h2 {
     background: #2EC76D;
 }
 
-.card .card-header ul li.active a{
+.card .card-header ul li.active a {
     color: #ffffff;
 }
 
 .card .card-header h2{
     text-align: left;
-    padding: 5px 30px;
+    padding: 0;
+    margin-left: 30px;
 }
 
 .card .card-body {
@@ -153,11 +160,22 @@ form .button {
     }
 }
 
-.image {
-    height: auto;
-    position: fixed;
-    top: 0%;
+.image-left {
+    position: absolute;
+    top: 0;
+    left: 0;
     box-sizing: content-box;
+    z-index: -999;
+}
+
+.image-right {
+    position: absolute;
+    box-sizing: content-box;
+    z-index: -999;
+    height: 100vh;
+    top: 0%;
+    right: 0;
+    bottom: 0;
 }
 
 input{
@@ -175,6 +193,6 @@ input{
     user-select: none;
     cursor: pointer;
   }
-  input .pass{
+  input .pass {
     padding-right: 2.5rem;
   }
