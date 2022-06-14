@@ -4,17 +4,107 @@ body {
     font-size: 16px normal;
     padding: 0 0;
     margin: 0 0;
+    background: #ffffff;
+}
+
+h1{
+    font-weight: bold;
+    font-size: 50px;
+}
+
+h2 {
+    font-size: 25px;
+    font-weight: medium;
+}
+
+.cointainer-row {
+    margin-left: 10%;
+    margin-right: 10%;
 }
 
 header {
-    border: 5px solid red;
     height: 50px;
-    background: #ffffff;
+}
+
+header .logo {
+    float: right;
+    text-align: center;
+    width: 30px;
+    height: 30px;
+    background: #000000;
+    margin: 5px 5px;
+    border-radius: 50%;
+    padding: 5px 5px;
+    z-index: -999;
 }
 
 section {
     min-height: 600px;
     height: auto;
+}
+
+div.section-title {
+    width: 100%;
+    border: 5px solid red;
+}
+
+div.section-title form {
+    display: inline-block;
+}
+
+div.section-title form{
+    float: right;
+    margin-right: 10px;
+    margin-top: -70px;
+}
+
+
+form .form-control{
+    position: relative;
+}
+
+form input{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 2px;
+    border: 2px solid #E5E5E5;
+    padding-left: 2rem;
+}
+
+form .icon-search {
+    display: block;
+    content: url("img/search1.svg");
+    left: .5rem;
+    user-select: none;
+    cursor: pointer;
+    position: absolute;
+    bottom: 5px;
+}
+
+form button{
+    background: #2EC76D;
+    color: white;
+    border: 5px #2EC76D;
+    cursor: pointer;
+    padding-left: 3%;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    width: auto;
+}
+
+form .icon-button {
+    display: block;
+    content: url("img/search1.svg");
+    left: 0.5rem;
+    user-select: none;
+    cursor: pointer;
+    position: absolute;
+    bottom: 5px;  
+}
+
+.tasks {
+    border: 5px solid #E5E5E5;
+    width: 100%;
 }
 
 footer {
@@ -44,7 +134,6 @@ footer {
 .card .card-footer {
     display: block;
     bottom: 0%;
-    border: 2px solid red;
     width: 100%;
     box-sizing: border-box;
     margin-right: 0;

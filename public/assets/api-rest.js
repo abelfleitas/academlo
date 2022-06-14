@@ -26,6 +26,17 @@ const getUser = () => {
       });
 }
 
+const list = () => {
+  const token = localStorage.getItem('token');
+  axios.get(`${APIURL}/tasks`, { headers: {"Authorization" : `Bearer ${token}`} })
+  .then(function (response) {
+      return response.data;
+    })
+    .catch(function (error) {
+      showAlert(error.message);
+    });
+}
+
 const saveStorage = (response) => {
     localStorage.setItem("token", response);
     getUser();

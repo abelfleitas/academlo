@@ -4,45 +4,34 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="../assets/dashboard.css" rel="stylesheet">
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   </head>
-  <body>
+  <body class="cointainer-row">
     <header>
-
+      <img src="../assets/img/user-logo.svg" alt="logo" class="logo">
     </header>
     <section class="container">
-      <div class="card">
-        <h3>jdjdjkdkjdkjksd</h3>
-        <div class="card-footer">
-          <button class="update">Update</button>
-          <button class="delete">Delete</button>
-        </div>
+      <div class="section-title">
+        <h1>Tareas</h1>
+        <form novalidate>
+            <div class="form-control">
+              <input type="search" placeholder="Buscar tarea">
+              <span class="icon-search"></span>
+            </div>
+            <div class="form-control">
+              <button class="submit"> Crear nueva tarea</button>
+              <span class="icon-button"></span>
+            </div>
+        </form>
       </div>
-      <div class="card">
-        <h3>jdjdjkdkjdkjksd</h3>
-        <div class="card-footer">
-          <button class="update">Update</button>
-          <button class="delete">Delete</button>
-        </div>
-      </div>
-      <div class="card">
-        <h3>jdjdjkdkjdkjksd</h3>
-        <div class="card-footer">
-          <button class="update">Update</button>
-          <button class="delete">Delete</button>
-        </div>
-      </div>
-      <div class="card">
-        <h3>jdjdjkdkjdkjksd</h3>
-        <div class="card-footer">
-          <button class="update">Update</button>
-          <button class="delete">Delete</button>
-        </div>
+      <div class="tasks">
+        
       </div>
     </section>
     <footer>
       <p>Academlo</p>
     </footer>
+    <script src="../assets/api-rest.js"></script>
     <script src="../assets/dashboard.js"></script>
-    <script src="../assets/api.js"></script>
   </body>
 </html>
