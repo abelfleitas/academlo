@@ -26,15 +26,18 @@ const getUser = () => {
       });
 }
 
-const list = () => {
+
+const list = async () => {
+  let taskArray = [];
   const token = localStorage.getItem('token');
-  axios.get(`${APIURL}/tasks`, { headers: {"Authorization" : `Bearer ${token}`} })
-  .then(function (response) {
-      return response.data;
+  await axios.get(`${APIURL}/tasks`, { headers: {"Authorization" : `Bearer ${token}`} })
+    .then(function (response) {
+      taskArray = response.data;
     })
     .catch(function (error) {
       showAlert(error.message);
     });
+    return taskArray;
 }
 
 const saveStorage = (response) => {
