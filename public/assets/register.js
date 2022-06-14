@@ -24,36 +24,34 @@
     });
  
     const validate = (name, email, password, confirmPassword) => {
-        
      var response = true;
-
+     const emailExp = /^(?:[^<>()[\].,;:\s@"]+(\.[^<>()[\].,;:\s@"]+)*|"[^\n"]+")@(?:[^<>()[\].,;:\s@"]+\.)+[^<>()[\]\.,;:\s@"]{2,63}$/i
      if(name.length <= 0) {
         errorName.removeAttribute("hidden")
      }  
 
-     switch(email) {
-         case undefined: 
-             response = false;
-             errorEmail.removeAttribute("hidden")
-             break;
-         case null:
-             response = false;
-             errorEmail.removeAttribute("hidden", false)
-             break;
-         case '':
-             response = false;
-             errorEmail.removeAttribute("hidden", false)
-             break;
-         // case match('^'):
-         //     response = false;
-         //     break;            
-     }
- 
+    if(email === undefined) {
+        response = false;
+        errorEmail.removeAttribute("hidden")
+    }
+    else if(email === null) {
+        response = false;
+        errorEmail.removeAttribute("hidden")
+    }
+    else if( email === '') {
+        response = false;
+        errorEmail.removeAttribute("hidden")
+    }
+    else if(! emailExp.test(email)) {
+        response = false;
+        errorEmail.removeAttribute("hidden", false)
+        errorEmail.innerHTML = "El campo email no contiene un correo eléctronico válido";
+    }         
+    
      if(password.length <= 0){
          errorPassword.removeAttribute("hidden", false)
          response = false;
      }
-
      if(confirmPassword.length <= 0){
         errorConfirmPassword.removeAttribute("hidden", false)
         response = false;

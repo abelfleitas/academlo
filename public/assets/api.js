@@ -2,7 +2,8 @@ const APIURL = "https://tasks-crud.academlo.com/api";
 
 const headers = {
     'Content-Type': 'application/json',
-    'Origin':'http://localhost:3000',
+    'Origin':'http://localhost',
+    'Access-Control-Allow-Origin': '*'
 }
 
 const login = (email,password)  => {
@@ -11,25 +12,28 @@ const login = (email,password)  => {
         method: 'POST', 
         body: JSON.stringify({ email, password}),
         headers,
-    }).then(res => res.text())
+    })
+    .then(res => res.text())
     .catch(error => {
-        console.log(error);
         button.classList.remove("button--loading");
+        console.log(error);
+        showAlert(error);
     })
     .then(response => {
         button.classList.remove("button--loading");
-        saveStorage(response)
-    });
+        saveStorage(response);
+    })
 }
 
-const getUser = () => {
-    console.log("getUser")
+const getUser = (token) => {
+    headers.Authorization = 'Bearer '+token;
     fetch(APIURL+"/user", {
         method: 'GET', 
         headers,
-    }).then(response => response.json())
-      .catch(error => console.log("Error", error))
-      .then(result => console.log("User =>",result));
+    })
+    .then(res => res.json())
+    .catch(error => showAlert(error))
+    .then(response => saveStorage(response))
 }
 
 const add = (data) => {
@@ -95,25 +99,20 @@ const setStatus = (id,status) => {
 };
 
 const saveStorage = (response) => {
-    localStorage.setItem("token", response);
-    getUser();
+    console.log("TTTken=> "+response)
+    if(localStorage.getItem("token") !== 'Credenciales incorrectas') {
+        localStorage.setItem("token", response);
+        getUser(response);
+    }
 }
 
 const saveUserStorage = (response) => {
     localStorage.setItem("user", response);
-    window.location = "page/dashboard.html"
+    window.location = "../page/dashboard.html"
 }
 
 const showAlert = (msj) => {
     alert(msj);
 }
 
-console.log("Token ====>",localStorage.getItem("token"))
-if(localStorage.getItem("token") !== null) {
-    window.fetch = async (...args) => {
-        let [resource, config ] = args;
-        let token = localStorage.getItem("token");
-        config.headers.Authorization = 'Bearer Token '+token;
-        return resource;
-    };
-}
+console.log("Token ====>", localStorage.getItem("token"))
