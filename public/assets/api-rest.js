@@ -40,6 +40,19 @@ const list = async () => {
     return taskArray;
 }
 
+const listStatus = async () => {
+  let statusArray = [];
+  const token = localStorage.getItem('token');
+  await axios.get(`${APIURL}/status`, { headers: {"Authorization" : `Bearer ${token}`} })
+    .then(function (response) {
+      statusArray = response.data;
+    })
+    .catch(function (error) {
+      showAlert(error.message);
+    });
+    return statusArray;
+}
+
 const saveStorage = (response) => {
     localStorage.setItem("token", response);
     getUser();
