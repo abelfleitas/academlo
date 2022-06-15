@@ -46,7 +46,6 @@ const listStatus = async () => {
   await axios.get(`${APIURL}/status`, { headers: {"Authorization" : `Bearer ${token}`} })
     .then(function (response) {
       statusArray = response.data;
-      console.log(response);
     })
     .catch(function (error) {
       showAlert(error.message);

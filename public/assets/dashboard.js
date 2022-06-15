@@ -11,6 +11,7 @@
     const statusArr = await listStatus();
     const res = await list();
 
+    console.log(statusArr);
 
     const tasks = document.querySelector(".tasks");
     res.forEach(element => {
@@ -57,16 +58,20 @@
         cardFooter.setAttribute("class","card-footer");
 
         // crate select item
-        let select = document.createElement("select");
-        select.setAttribute("name", "status");
-
-        // crete option item
-        let option = document.createElement("option");
-        option.setAttribute("value", element.status_id);
-        option.innerText = element.status_id;
-
-        select.append(option);
-        cardFooter.append(select)
+        let status = statusArr.find(x => x.id === element.status_id);
+        if(status){
+            let select = document.createElement("select");
+            select.setAttribute("name", "status");
+    
+            // crete option item
+            let option = document.createElement("option");
+            option.setAttribute("value", element.status_id);        
+            option.innerText = status.name;
+    
+            select.append(option);
+            cardFooter.append(hr)
+            cardFooter.append(select)
+        }    
        
         card.append(cardHeader);
         card.append(cardBody);
@@ -75,19 +80,50 @@
         tasks.append(card);
     });
 
+    const addBtn = document.querySelector("#add-task");
+    const modal = document.querySelector("#modal");
+    const span = document.querySelector(".close");
+    const body = document.querySelector("body");
+    const modalTitle = document.querySelector("h2.modal-title")
+
     // Edit task 
     const btn = document.querySelector(".card-edit-btn");
     btn.addEventListener('click', () => {
-        alert("click => ");
+        modalTitle.innerText = "Editar Tarea";
+        modal.style.display = "block";
+        body.style.position = "static";
+        body.style.height = "100%";
+        body.style.overflow = "hidden";
     });
 
     // create task
-    const addBtn = document.querySelector("#add-task");
     addBtn.addEventListener("click", () => {
-        alert("fndsnf")
+        modalTitle.innerText = "Adicionar Tarea";
+        modal.style.display = "block";
+        body.style.position = "static";
+        body.style.height = "100%";
+        body.style.overflow = "hidden";
     });
 
+    span.addEventListener("click", () => {
+        modal.style.display = "none";
+        body.style.position = "inherit";
+        body.style.height = "auto";
+        body.style.overflow = "visible";
+    });
+
+    window.onclick = (event) => {
+        if (event.target == modal) {
+            modal.style.display = "none";
+            body.style.position = "inherit";
+            body.style.height = "auto";
+            body.style.overflow = "visible";
+        }
+    }
+
 })();
+
+
 
 
 

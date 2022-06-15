@@ -29,6 +29,35 @@
         
       </div>
     </section>
+
+    <div id="modal" class="modalContainer">
+      <div class="modal-content">
+      <span class="close">×</span> 
+      <h2 class="modal-title">Modal</h2>
+      <div id="modal-body">
+        <form novalidate>
+          <label for="taskname" name="addtask">
+            Nombre de la tarea: 
+            <input type="text" name="taskname" id="taskname" placeholder="Escribe el nombre de la tarea"/>
+            <span class="error" id="errorName"></span>
+            <span class="help-block">0/15</span>
+          </label>
+          <label for="tasdecrip">
+            Descripcion: 
+            <textarea name="tasdecrip" id="tasdecrip" rows="4" placeholder="Escribe la descripcion de la tarea"></textarea>
+            <span class="error" id="errorDescrip"></span>
+            <span class="help-block">0/15</span>
+          </label>
+        </form>
+      </div>
+      <div id="modal-footer">
+        <div class="action">
+          <button class="button">Cancelar</button>
+          <button class="submit">Guardar Cambios</button>
+        </div>
+      </div>
+    </div> 
+
     <script src="../assets/api-rest.js"></script>
     <script src="../assets/dashboard.js"></script>
   </body>
