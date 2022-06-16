@@ -113,9 +113,7 @@ form .help-block{
 }
 
 form .button {
-    margin-top: 10px;
     width: 100%;
-    font-weight: bold;
     position: relative;
     padding: 4px 4px;
     background: #2EC76D;
@@ -191,8 +189,9 @@ input{
     content: url("img/component.svg");
     user-select: none;
     cursor: pointer;
-  }
-  input .pass {
+}
+
+input .pass {
     padding-right: 2.5rem;
 }
 

@@ -1,7 +1,7 @@
-
 const APIURL = "https://tasks-crud.academlo.com/api";
 
 const button = document.querySelector(".button");
+const btnText = document.querySelector(".button__text");
 const errorName = document.querySelector("#errorName");
 const errorDescrip = document.querySelector("#errorDescrip");
 
@@ -11,8 +11,14 @@ const login = (email,password)  => {
         saveStorage(response.data)
       })
       .catch(function (error) {
-        showAlert(error.message);
         button.classList.remove("button--loading");
+        if(error.response.status == 401) {
+          let message = error.response.data;
+          showAlert(message)
+        }
+        else {
+          showAlert(error.message);
+        }
       });
 }
 
@@ -28,7 +34,6 @@ const getUser = () => {
         button.classList.remove("button--loading");
       });
 }
-
 
 const list = async () => {
   let taskArray = [];
@@ -56,14 +61,42 @@ const listStatus = async () => {
     return statusArray;
 }
 
+const getTask = async (id) => {
+  let task = null;
+  const token = localStorage.getItem('token');
+  await axios.get(`${APIURL}/tasks/${id}`, { headers: {"Authorization" : `Bearer ${token}`} })
+    .then(function (response) {
+      task = response.data;
+    })
+    .catch(function (error) {
+      showAlert(error.message);
+    });
+    return task;
+}
+
+const deleteTask = async (id) => {
+  let resp = false;
+  const token = localStorage.getItem('token');
+  await axios.delete(`${APIURL}/tasks/${id}`, { headers: {"Authorization" : `Bearer ${token}`} })
+    .then(function (response) {
+      resp = true;
+    })
+    .catch(function (error) {
+      showAlert(error.message);
+    });
+    return resp;
+}
+
 const addTask = async (name, description) => {
-  let response = false;
+  let resp = false;
   const token = localStorage.getItem('token');
   await axios.post(`${APIURL}/tasks`, {name, description}, { headers: {"Authorization" : `Bearer ${token}`} })
     .then(function (response) {
-      response = true;
+      button.classList.remove("button--loading");
+      resp = true;
     })
     .catch(function (error) {
+      button.classList.remove("button--loading");
       if(error.response.status == 422) {
         let errors = error.response.data.errors;
         if(errors.name !== undefined) {
@@ -77,17 +110,19 @@ const addTask = async (name, description) => {
         showAlert("Error code "+ error.response.status + "\n" + error.response.statusText);
       }
     });
-    return response;
+    return resp;
 }
 
-const updateTask = async (id,name, description) => {
-  let response = false;
+const updateTask = async (id, name, description) => {
+  let resp = false;
   const token = localStorage.getItem('token');
   await axios.put(`${APIURL}/tasks/${id}`, {name, description},{ headers: {"Authorization" : `Bearer ${token}`} })
     .then(function (response) {
-      response = true;
+      button.classList.remove("button--loading");
+      resp = true;
     })
     .catch(function (error) {
+      button.classList.remove("button--loading");
       if(error.response.status == 422) {
         let errors = error.response.data.errors;
         if(errors.name !== undefined) {
@@ -101,6 +136,7 @@ const updateTask = async (id,name, description) => {
         showAlert("Error code "+ error.response.status + "\n" + error.response.statusText);
       }
     });  
+    return resp;
 }
 
 const saveStorage = (response) => {
