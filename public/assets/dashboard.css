@@ -121,12 +121,13 @@ div.section-title {
 
 .tasks .card .card-header{
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: space-between;
+
 }
 
 .tasks .card .card-header .card-edit-btn {
-    border: none;
+    border: none; 
     background: transparent;
     background-image:url("img/edit21.svg");
     background-repeat:no-repeat;
@@ -190,6 +191,16 @@ hr {
     font-weight: bold;
 }
 
+.modalContainer .modal-content .modal-footer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.modalContainer .modal-content .modal-footer button{
+    border-radius: 3px;
+    cursor: pointer;
+}
+
 .modalContainer .close:hover,
 .modalContainer .close:focus {
     color: #000;
@@ -231,4 +242,11 @@ form .help-block{
     padding-bottom: 5px;
     color: black;
     text-decoration: none;
+}
+
+button[type="submit"] {
+    background: #2EC76D;
+    color: white;
+    border: 5px #2EC76D;
+    padding: 10px;
 }

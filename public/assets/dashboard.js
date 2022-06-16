@@ -10,12 +10,9 @@
 
     const statusArr = await listStatus();
     const res = await list();
-
-    console.log(statusArr);
-
+    //console.log(statusArr);
     const tasks = document.querySelector(".tasks");
     res.forEach(element => {
-        
         let random = Math.random(colors.length -1);
 
         let card = document.createElement("div");
@@ -82,13 +79,18 @@
 
     const addBtn = document.querySelector("#add-task");
     const modal = document.querySelector("#modal");
+    const btnCancel = document.querySelector(".close-modal");
     const span = document.querySelector(".close");
     const body = document.querySelector("body");
     const modalTitle = document.querySelector("h2.modal-title")
+    const form = document.querySelector("#formtask");
+    const taskname = document.getElementById("taskname");
+    const taskDescription = document.getElementById("tasdecrip");
 
     // Edit task 
     const btn = document.querySelector(".card-edit-btn");
     btn.addEventListener('click', () => {
+        modal.setAttribute("data-id","edit")
         modalTitle.innerText = "Editar Tarea";
         modal.style.display = "block";
         body.style.position = "static";
@@ -98,6 +100,7 @@
 
     // create task
     addBtn.addEventListener("click", () => {
+        modal.setAttribute("data-id","add")
         modalTitle.innerText = "Adicionar Tarea";
         modal.style.display = "block";
         body.style.position = "static";
@@ -105,21 +108,78 @@
         body.style.overflow = "hidden";
     });
 
-    span.addEventListener("click", () => {
+    btnCancel.addEventListener("click", () => {
+        modal.setAttribute("data-id","");
+        errorName.innerText = "";
+        errorDescrip.innerText = "";
         modal.style.display = "none";
         body.style.position = "inherit";
         body.style.height = "auto";
         body.style.overflow = "visible";
     });
 
-    window.onclick = (event) => {
-        if (event.target == modal) {
-            modal.style.display = "none";
-            body.style.position = "inherit";
-            body.style.height = "auto";
-            body.style.overflow = "visible";
+    span.addEventListener("click", () => {
+        modal.setAttribute("data-id","");
+        errorName.innerText = "";
+        errorDescrip.innerText = "";
+        modal.style.display = "none";
+        body.style.position = "inherit";
+        body.style.height = "auto";
+        body.style.overflow = "visible";
+    });
+
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+       
+        let attrData = modal.getAttribute('data-id');
+        if(attrData === "add")
+        {
+            let response = await addTask(taskname.value,taskDescription.value);  
+            if(response !== false) {
+                modal.setAttribute("data-id","")
+                errorName.innerHTML = "";
+                errorDescrip.innerText = "";
+                modal.style.display = "none";
+                body.style.position = "inherit";
+                body.style.height = "auto";
+                body.style.overflow = "visible";
+
+                form.reset();
+
+                showAlert("La tarea ha sido adicionada satisfactoriamente");
+
+                location.reload();
+            }
         }
-    }
+        else {
+
+            let response = await updateTask(taskname.value,taskDescription.value);  
+            if(response !== false) {
+                modal.setAttribute("data-id","")
+                errorName.innerText = "";
+                errorDescrip.innerText = "";
+                modal.style.display = "none";
+                body.style.position = "inherit";
+                body.style.height = "auto";
+                body.style.overflow = "visible";
+
+                form.reset();
+
+                showAlert("La tarea ha sido adicionada satisfactoriamente");
+
+                location.reload();
+            }
+        }
+    });
+
+    taskname.addEventListener("keyup", () => {
+        errorName.innerText = "";
+    });
+
+    taskDescription.addEventListener("keyup", () => {
+        errorDescrip.innerText = "";
+    });
+
 
 })();
 
