@@ -139,6 +139,19 @@ const updateTask = async (id, name, description) => {
     return resp;
 }
 
+const assignStatusTask = async (idtask, idStatus) => {
+  let resp = false;
+  const token = localStorage.getItem('token');
+  await axios.post(`${APIURL}/tasks/${idtask}/status/${idStatus}`, { headers: {"Authorization" : `Bearer ${token}`} })
+    .then(function (response) {
+      resp = true;
+    })
+    .catch(function (error) {
+      showAlert(error.message);
+    });  
+    return resp;
+}
+
 const saveStorage = (response) => {
     localStorage.setItem("token", response);
     getUser();

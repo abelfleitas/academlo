@@ -56,7 +56,9 @@
         cardFooter.setAttribute("class","card-footer");
 
         let select = document.createElement("select");
+        select.setAttribute("class",".select2")
         select.setAttribute("name", "status");
+        select.setAttribute("data-id",`${element.id}`);
 
         let option = document.createElement("option");
         option.setAttribute("value", ""); 
@@ -102,6 +104,7 @@
     const btn = document.querySelector(".card-edit-btn");
     const inputHidden = document.querySelector("#idtask");
     const btnDelete = document.querySelector(".delete");
+    const select = document.querySelector(".select2");
 
     // Edit task 
     btn.addEventListener('click', async (e) => {
@@ -238,6 +241,10 @@
         }
     });
 
+    //Assign Status to Task
+    // select.addEventListener("change", async (e) => {
+    //     console.log(e.target);
+    // });
 
 })();
 
