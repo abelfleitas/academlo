@@ -83,8 +83,9 @@
     const span = document.querySelector(".close");
     const body = document.querySelector("body");
     const modalTitle = document.querySelector("h2.modal-title")
-
     const form = document.querySelector("#formtask");
+    const taskname = document.getElementById("taskname");
+    const taskDescription = document.getElementById("tasdecrip");
 
     // Edit task 
     const btn = document.querySelector(".card-edit-btn");
@@ -108,7 +109,9 @@
     });
 
     btnCancel.addEventListener("click", () => {
-        modal.setAttribute("data-id","")
+        modal.setAttribute("data-id","");
+        errorName.innerText = "";
+        errorDescrip.innerText = "";
         modal.style.display = "none";
         body.style.position = "inherit";
         body.style.height = "auto";
@@ -116,7 +119,9 @@
     });
 
     span.addEventListener("click", () => {
-        modal.setAttribute("data-id","")
+        modal.setAttribute("data-id","");
+        errorName.innerText = "";
+        errorDescrip.innerText = "";
         modal.style.display = "none";
         body.style.position = "inherit";
         body.style.height = "auto";
@@ -125,26 +130,56 @@
 
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
-        const taskname = document.getElementById("taskname").value;
-        const taskDescription = document.getElementById("tasdecrip").value;
-        //if()
+       
+        let attrData = modal.getAttribute('data-id');
+        if(attrData === "add")
+        {
+            let response = await addTask(taskname.value,taskDescription.value);  
+            if(response !== false) {
+                modal.setAttribute("data-id","")
+                errorName.innerHTML = "";
+                errorDescrip.innerText = "";
+                modal.style.display = "none";
+                body.style.position = "inherit";
+                body.style.height = "auto";
+                body.style.overflow = "visible";
 
-        let response = await addTask(taskname,taskDescription);  
+                form.reset();
 
-        if(response !== null){
-            modal.setAttribute("data-id","")
-            
-            modal.style.display = "none";
-            body.style.position = "inherit";
-            body.style.height = "auto";
-            body.style.overflow = "visible";
-            
-            form.reset();
+                showAlert("La tarea ha sido adicionada satisfactoriamente");
 
-            showAlert("La tarea ha sido adicionada satisfactoriamente")
-            location.reload();
+                location.reload();
+            }
+        }
+        else {
+
+            let response = await updateTask(taskname.value,taskDescription.value);  
+            if(response !== false) {
+                modal.setAttribute("data-id","")
+                errorName.innerText = "";
+                errorDescrip.innerText = "";
+                modal.style.display = "none";
+                body.style.position = "inherit";
+                body.style.height = "auto";
+                body.style.overflow = "visible";
+
+                form.reset();
+
+                showAlert("La tarea ha sido adicionada satisfactoriamente");
+
+                location.reload();
+            }
         }
     });
+
+    taskname.addEventListener("keyup", () => {
+        errorName.innerText = "";
+    });
+
+    taskDescription.addEventListener("keyup", () => {
+        errorDescrip.innerText = "";
+    });
+
 
 })();
 

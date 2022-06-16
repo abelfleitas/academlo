@@ -2,6 +2,8 @@
 const APIURL = "https://tasks-crud.academlo.com/api";
 
 const button = document.querySelector(".button");
+const errorName = document.querySelector("#errorName");
+const errorDescrip = document.querySelector("#errorDescrip");
 
 const login = (email,password)  => {
     axios.post(`${APIURL}/auth/login`, {email, password})
@@ -55,31 +57,51 @@ const listStatus = async () => {
 }
 
 const addTask = async (name, description) => {
+  let response = false;
   const token = localStorage.getItem('token');
   await axios.post(`${APIURL}/tasks`, {name, description}, { headers: {"Authorization" : `Bearer ${token}`} })
     .then(function (response) {
       response = true;
-      return response.data;
     })
     .catch(function (error) {
-      //tratamiento de errores
-
-      console.log(error);
-      return null
+      if(error.response.status == 422) {
+        let errors = error.response.data.errors;
+        if(errors.name !== undefined) {
+          errorName.innerText = errors.name;
+        }
+        if(errors.description !== undefined) {
+          errorDescrip.innerText = errors.description;
+        }
+      }
+      else {
+        showAlert("Error code "+ error.response.status + "\n" + error.response.statusText);
+      }
     });
+    return response;
 }
 
-// const updateTask = async (name, description) => {
-//   const token = localStorage.getItem('token');
-//   let request = JSON.stringify({name,description})
-//   await axios.put(`${APIURL}/status`, { headers: {"Authorization" : `Bearer ${token}`} }, request)
-//     .then(function (response) {
-//       console.log(response.data);
-//     })
-//     .catch(function (error) {
-//       showAlert(error.message);
-//     });  
-// }
+const updateTask = async (id,name, description) => {
+  let response = false;
+  const token = localStorage.getItem('token');
+  await axios.put(`${APIURL}/tasks/${id}`, {name, description},{ headers: {"Authorization" : `Bearer ${token}`} })
+    .then(function (response) {
+      response = true;
+    })
+    .catch(function (error) {
+      if(error.response.status == 422) {
+        let errors = error.response.data.errors;
+        if(errors.name !== undefined) {
+          errorName.innerText = errors.name;
+        }
+        if(errors.description !== undefined) {
+          errorDescrip.innerText = errors.description;
+        }
+      }
+      else {
+        showAlert("Error code "+ error.response.status + "\n" + error.response.statusText);
+      }
+    });  
+}
 
 const saveStorage = (response) => {
     localStorage.setItem("token", response);
