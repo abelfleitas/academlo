@@ -10,6 +10,7 @@
 
     const statusArr = await listStatus();
     const res = await list();
+
     //console.log(statusArr);
     const tasks = document.querySelector(".tasks");
     res.forEach(element => {
@@ -28,7 +29,7 @@
         let cardEditBtn = document.createElement("button");
         cardEditBtn.setAttribute("class","card-edit-btn");
         cardEditBtn.setAttribute("id",`btn-${element.id}`);
-        cardEditBtn.setAttribute("value", element.id)
+        //cardEditBtn.setAttribute("value", element.id)
 
         let hr = document.createElement("hr");
 
@@ -54,24 +55,34 @@
         let cardFooter = document.createElement("div");
         cardFooter.setAttribute("class","card-footer");
 
-        // crate select item
-        let status = statusArr.find(x => x.id === element.status_id);
-        if(status){
-            let select = document.createElement("select");
-            select.setAttribute("name", "status");
-    
-            // crete option item
-            let option = document.createElement("option");
-            option.setAttribute("value", element.status_id);        
-            option.innerText = status.name;
-    
-            select.append(option);
-            cardFooter.append(hr)
-            cardFooter.append(select)
-        }    
-       
+        let select = document.createElement("select");
+        select.setAttribute("name", "status");
+
+        let option = document.createElement("option");
+        option.setAttribute("value", ""); 
+        option.innerText = "";
+        select.append(option);
+
+        statusArr.forEach(el => {
+            let option1 = document.createElement("option");
+            option1.setAttribute("value", el.id);        
+            option1.innerText = el.name;
+            if(el.id === element.status_id) {
+                option1.setAttribute("selected","true") 
+            }
+            select.append(option1);
+        });        
+          
+        cardFooter.append(select);
+        let btnDelete = document.createElement("button");
+        btnDelete.innerText = "Eliminar";
+        btnDelete.setAttribute("value", element.id); 
+        btnDelete.setAttribute("class", "delete"); 
+        cardFooter.append(btnDelete)
+
         card.append(cardHeader);
         card.append(cardBody);
+        card.append(hr);
         card.append(cardFooter);
 
         tasks.append(card);
@@ -86,11 +97,21 @@
     const form = document.querySelector("#formtask");
     const taskname = document.getElementById("taskname");
     const taskDescription = document.getElementById("tasdecrip");
+    const nameCounter =  document.querySelector(".namecounter");
+    const descriptCounter =  document.querySelector(".descripcounter");
+    const btn = document.querySelector(".card-edit-btn");
+    const inputHidden = document.querySelector("#idtask");
+    const btnDelete = document.querySelector(".delete");
 
     // Edit task 
-    const btn = document.querySelector(".card-edit-btn");
-    btn.addEventListener('click', () => {
-        modal.setAttribute("data-id","edit")
+    btn.addEventListener('click', async (e) => {
+        modal.setAttribute("data-action","edit");
+        let indice = e.target.id.indexOf("-");
+        let id = e.target.id.substring(indice + 1,e.target.id.length);
+        inputHidden.value = id;
+        let task = await getTask(id);
+        taskname.value = task.name;
+        taskDescription.value = task.description;
         modalTitle.innerText = "Editar Tarea";
         modal.style.display = "block";
         body.style.position = "static";
@@ -100,7 +121,7 @@
 
     // create task
     addBtn.addEventListener("click", () => {
-        modal.setAttribute("data-id","add")
+        modal.setAttribute("data-action","add")
         modalTitle.innerText = "Adicionar Tarea";
         modal.style.display = "block";
         body.style.position = "static";
@@ -109,9 +130,12 @@
     });
 
     btnCancel.addEventListener("click", () => {
-        modal.setAttribute("data-id","");
+        modal.setAttribute("data-action","");
         errorName.innerText = "";
         errorDescrip.innerText = "";
+        nameCounter.innerText = "0/150";
+        descriptCounter.innerText = "0/150";
+        form.reset();
         modal.style.display = "none";
         body.style.position = "inherit";
         body.style.height = "auto";
@@ -119,24 +143,42 @@
     });
 
     span.addEventListener("click", () => {
-        modal.setAttribute("data-id","");
+        modal.setAttribute("data-action","");
         errorName.innerText = "";
         errorDescrip.innerText = "";
+        nameCounter.innerText = "0/150";
+        descriptCounter.innerText = "0/150";
+        form.reset();
         modal.style.display = "none";
         body.style.position = "inherit";
         body.style.height = "auto";
         body.style.overflow = "visible";
     });
 
+    // delete task
+    btnDelete.addEventListener("click", async () => {
+        var result = confirm("Estas seguro de eliminar esta tarea!");
+            if (result == true) {
+                let response = await deleteTask(btnDelete.value);  
+                if(response !== false) {
+                showAlert("La tarea ha sido eliminada satisfactoriamente");
+                location.reload();
+            }
+        } 
+    });
+
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
-       
-        let attrData = modal.getAttribute('data-id');
+        btnText.style.color = "#2EC76D";
+        button.classList.add("button--loading");
+        console.log(button.attributes)
+
+        let attrData = modal.getAttribute('data-action');
         if(attrData === "add")
         {
             let response = await addTask(taskname.value,taskDescription.value);  
             if(response !== false) {
-                modal.setAttribute("data-id","")
+                modal.setAttribute("data-action","")
                 errorName.innerHTML = "";
                 errorDescrip.innerText = "";
                 modal.style.display = "none";
@@ -152,10 +194,10 @@
             }
         }
         else {
-
-            let response = await updateTask(taskname.value,taskDescription.value);  
+            let response = await updateTask(inputHidden.value, taskname.value,taskDescription.value);  
+            alert(response);
             if(response !== false) {
-                modal.setAttribute("data-id","")
+                modal.setAttribute("data-action","")
                 errorName.innerText = "";
                 errorDescrip.innerText = "";
                 modal.style.display = "none";
@@ -165,7 +207,7 @@
 
                 form.reset();
 
-                showAlert("La tarea ha sido adicionada satisfactoriamente");
+                showAlert("La tarea ha sido editada satisfactoriamente");
 
                 location.reload();
             }
@@ -174,10 +216,26 @@
 
     taskname.addEventListener("keyup", () => {
         errorName.innerText = "";
+        let maxLength = 150;
+        let strLength = taskname.value.length;
+        if(strLength > maxLength){
+            nameCounter.innerText = strLength+'/'+maxLength;
+        }
+        else{
+            nameCounter.innerText = strLength+'/'+maxLength;
+        }
     });
 
     taskDescription.addEventListener("keyup", () => {
         errorDescrip.innerText = "";
+        let maxLength = 150;
+        let strLength = taskDescription.value.length;
+        if(strLength > maxLength){
+            descriptCounter.innerText = strLength+'/'+maxLength;
+        }
+        else{
+            descriptCounter.innerText = strLength+'/'+maxLength;
+        }
     });
 
 

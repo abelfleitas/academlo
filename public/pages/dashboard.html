@@ -40,23 +40,27 @@
               Nombre de la tarea: 
               <input type="text" name="taskname" id="taskname" placeholder="Escribe el nombre de la tarea"/>
               <span class="error" id="errorName"></span>
-              <span class="help-block">0/15</span>
+              <span class="help-block namecounter">0/150</span>
             </label>
             <label for="tasdecrip">
               Descripcion: 
               <textarea name="tasdecrip" id="tasdecrip" rows="4" placeholder="Escribe la descripcion de la tarea"></textarea>
               <span class="error" id="errorDescrip"></span>
-              <span class="help-block">0/15</span>
+              <span class="help-block descripcounter">0/150</span>
             </label>
+            <input type="hidden" name="idtask" id="idtask"/>
           </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="close-modal">Cancelar</button>
-          <button type="submit" form="formtask" id="submit">Guardar Cambios</button>
+          <div class="">
+            <button type="submit" form="formtask" class="button">
+              <span class="button__text"> Guardar Cambios</span>
+            </button>
+          </div>
         </div>
       </div>  
     </div> 
-
     <script src="../assets/api-rest.js"></script>
     <script src="../assets/dashboard.js"></script>
   </body>
