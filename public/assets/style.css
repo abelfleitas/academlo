@@ -18,9 +18,9 @@ h2 {
 }
 
 .container {
-    display: grid;
-    width: 380px;
-    margin-left: 33%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .marg-5{
@@ -32,6 +32,7 @@ h2 {
 }
 
 .container .card {
+    width: 300px;
     box-shadow: 1px 1px #e5e5e5;
     padding: 20px 20px;
     box-sizing: content-box;

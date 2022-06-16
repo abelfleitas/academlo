@@ -1,3 +1,4 @@
+
 const APIURL = "https://tasks-crud.academlo.com/api";
 
 const button = document.querySelector(".button");
@@ -52,6 +53,33 @@ const listStatus = async () => {
     });
     return statusArray;
 }
+
+const addTask = async (name, description) => {
+  const token = localStorage.getItem('token');
+  await axios.post(`${APIURL}/tasks`, {name, description}, { headers: {"Authorization" : `Bearer ${token}`} })
+    .then(function (response) {
+      response = true;
+      return response.data;
+    })
+    .catch(function (error) {
+      //tratamiento de errores
+
+      console.log(error);
+      return null
+    });
+}
+
+// const updateTask = async (name, description) => {
+//   const token = localStorage.getItem('token');
+//   let request = JSON.stringify({name,description})
+//   await axios.put(`${APIURL}/status`, { headers: {"Authorization" : `Bearer ${token}`} }, request)
+//     .then(function (response) {
+//       console.log(response.data);
+//     })
+//     .catch(function (error) {
+//       showAlert(error.message);
+//     });  
+// }
 
 const saveStorage = (response) => {
     localStorage.setItem("token", response);
