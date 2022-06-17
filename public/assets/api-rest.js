@@ -92,11 +92,9 @@ const addTask = async (name, description) => {
   const token = localStorage.getItem('token');
   await axios.post(`${APIURL}/tasks`, {name, description}, { headers: {"Authorization" : `Bearer ${token}`} })
     .then(function (response) {
-      button.classList.remove("button--loading");
       resp = true;
     })
     .catch(function (error) {
-      button.classList.remove("button--loading");
       if(error.response.status == 422) {
         let errors = error.response.data.errors;
         if(errors.name !== undefined) {
@@ -118,11 +116,9 @@ const updateTask = async (id, name, description) => {
   const token = localStorage.getItem('token');
   await axios.put(`${APIURL}/tasks/${id}`, {name, description},{ headers: {"Authorization" : `Bearer ${token}`} })
     .then(function (response) {
-      button.classList.remove("button--loading");
       resp = true;
     })
     .catch(function (error) {
-      button.classList.remove("button--loading");
       if(error.response.status == 422) {
         let errors = error.response.data.errors;
         if(errors.name !== undefined) {
@@ -142,7 +138,7 @@ const updateTask = async (id, name, description) => {
 const assignStatusTask = async (idtask, idStatus) => {
   let resp = false;
   const token = localStorage.getItem('token');
-  await axios.post(`${APIURL}/tasks/${idtask}/status/${idStatus}`, { headers: {"Authorization" : `Bearer ${token}`} })
+  await axios.post(`${APIURL}/tasks/${idtask}/status/${idStatus}`, null, { headers: {"Authorization" : `Bearer ${token}`} })
     .then(function (response) {
       resp = true;
     })

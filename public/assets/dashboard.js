@@ -56,7 +56,7 @@
         cardFooter.setAttribute("class","card-footer");
 
         let select = document.createElement("select");
-        select.setAttribute("class",".select2")
+        select.setAttribute("class","select2")
         select.setAttribute("name", "status");
         select.setAttribute("data-id",`${element.id}`);
 
@@ -101,25 +101,27 @@
     const taskDescription = document.getElementById("tasdecrip");
     const nameCounter =  document.querySelector(".namecounter");
     const descriptCounter =  document.querySelector(".descripcounter");
-    const btn = document.querySelector(".card-edit-btn");
+    const btnArray = document.querySelectorAll(".card-edit-btn");
     const inputHidden = document.querySelector("#idtask");
-    const btnDelete = document.querySelector(".delete");
-    const select = document.querySelector(".select2");
+    const btnArrayDelete = document.querySelectorAll(".delete");
+    const selectArray = document.querySelectorAll(".select2");
 
     // Edit task 
-    btn.addEventListener('click', async (e) => {
-        modal.setAttribute("data-action","edit");
-        let indice = e.target.id.indexOf("-");
-        let id = e.target.id.substring(indice + 1,e.target.id.length);
-        inputHidden.value = id;
-        let task = await getTask(id);
-        taskname.value = task.name;
-        taskDescription.value = task.description;
-        modalTitle.innerText = "Editar Tarea";
-        modal.style.display = "block";
-        body.style.position = "static";
-        body.style.height = "100%";
-        body.style.overflow = "hidden";
+    [...btnArray].forEach((btn) => {
+        btn.addEventListener('click', async (e) => {
+            modal.setAttribute("data-action","edit");
+            let indice = e.target.id.indexOf("-");
+            let id = e.target.id.substring(indice + 1,e.target.id.length);
+            inputHidden.value = id;
+            let task = await getTask(id);
+            taskname.value = task.name;
+            taskDescription.value = task.description;
+            modalTitle.innerText = "Editar Tarea";
+            modal.style.display = "block";
+            body.style.position = "static";
+            body.style.height = "100%";
+            body.style.overflow = "hidden";
+        });
     });
 
     // create task
@@ -159,23 +161,21 @@
     });
 
     // delete task
-    btnDelete.addEventListener("click", async () => {
-        var result = confirm("Estas seguro de eliminar esta tarea!");
-            if (result == true) {
-                let response = await deleteTask(btnDelete.value);  
-                if(response !== false) {
-                showAlert("La tarea ha sido eliminada satisfactoriamente");
-                location.reload();
-            }
-        } 
+    [...btnArrayDelete].forEach((btnDelete) => {
+        btnDelete.addEventListener("click", async () => {
+            var result = confirm("Estas seguro de eliminar esta tarea!");
+                if (result == true) {
+                    let response = await deleteTask(btnDelete.value);  
+                    if(response !== false) {
+                    showAlert("La tarea ha sido eliminada satisfactoriamente");
+                    location.reload();
+                }
+            } 
+        });
     });
 
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
-        btnText.style.color = "#2EC76D";
-        button.classList.add("button--loading");
-        console.log(button.attributes)
-
         let attrData = modal.getAttribute('data-action');
         if(attrData === "add")
         {
@@ -188,17 +188,13 @@
                 body.style.position = "inherit";
                 body.style.height = "auto";
                 body.style.overflow = "visible";
-
                 form.reset();
-
                 showAlert("La tarea ha sido adicionada satisfactoriamente");
-
                 location.reload();
             }
         }
         else {
             let response = await updateTask(inputHidden.value, taskname.value,taskDescription.value);  
-            alert(response);
             if(response !== false) {
                 modal.setAttribute("data-action","")
                 errorName.innerText = "";
@@ -207,11 +203,8 @@
                 body.style.position = "inherit";
                 body.style.height = "auto";
                 body.style.overflow = "visible";
-
                 form.reset();
-
                 showAlert("La tarea ha sido editada satisfactoriamente");
-
                 location.reload();
             }
         }
@@ -241,10 +234,20 @@
         }
     });
 
-    //Assign Status to Task
-    // select.addEventListener("change", async (e) => {
-    //     console.log(e.target);
-    // });
+    // Assign Status to Task
+    [...selectArray].forEach((select) => {
+        select.addEventListener("change", async (e) => {
+            let id = select.dataset.id;
+            let statusId = select.value;
+            if(statusId !== ""){
+            const res = await assignStatusTask(id,statusId);
+                if(res){
+                    showAlert("La tarea fue asignada satisfactoriamente.");
+                    location.reload();
+                }
+            }            
+        });
+    });
 
 })();
 
